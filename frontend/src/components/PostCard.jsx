@@ -10,19 +10,19 @@ import {
   IconButton,
   Box,
   Collapse,
-  List,
-  ListItem,
-  ListItemText,
   Divider,
   TextField,
   CircularProgress,
+  Button,
+  Stack,
 } from '@mui/material';
 import {
   Favorite as FavoriteIcon,
   FavoriteBorder as FavoriteBorderIcon,
-  ChatBubble as CommentIcon,
   Send as SendIcon,
 } from '@mui/icons-material';
+
+import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 
 function PostCard({ post, onLike, onComment }) {
   const [expanded, setExpanded] = useState(false);
@@ -73,22 +73,20 @@ function PostCard({ post, onLike, onComment }) {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
       })
     : '';
 
   return (
     <Card 
+      elevation={0}
       sx={{ 
-        mb: 3, 
-        borderRadius: 3, 
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
-        border: '1px solid rgba(0, 0, 0, 0.04)',
-        transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+        mb: 2, 
+        borderRadius: 2, 
+        border: '1px solid #e2e8f0',
+        backgroundColor: '#ffffff',
+        transition: 'box-shadow 0.2s ease-in-out',
         '&:hover': {
-          transform: 'translateY(-2px)',
-          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
         }
       }}
     >
@@ -96,15 +94,18 @@ function PostCard({ post, onLike, onComment }) {
         avatar={
           <Avatar 
             sx={{ 
-              background: 'linear-gradient(45deg, #4f46e5 30%, #ec4899 90%)',
-              fontWeight: 700 
+              background: 'linear-gradient(135deg, #0a66c2 0%, #1e3c72 100%)',
+              fontWeight: 600,
+              fontSize: '1rem',
+              width: 48,
+              height: 48,
             }}
           >
             {initialLetter}
           </Avatar>
         }
         title={
-          <Typography variant="subtitle1" fontWeight={700} sx={{ color: '#1e293b' }}>
+          <Typography variant="subtitle1" fontWeight={600} sx={{ color: '#0f172a' }}>
             {username}
           </Typography>
         }
@@ -115,117 +116,122 @@ function PostCard({ post, onLike, onComment }) {
             </Typography>
           )
         }
+        sx={{ pb: 1.5 }}
       />
       
-      <CardContent sx={{ pt: 1, pb: 2 }}>
-        <Typography variant="body1" sx={{ color: '#334155', whiteSpace: 'pre-line' }}>
+      <CardContent sx={{ pt: 0, pb: 1.5, px: 2 }}>
+        <Typography 
+          variant="body1" 
+          sx={{ 
+            color: '#1e293b', 
+            lineHeight: 1.6, 
+            fontSize: '0.95rem',
+            whiteSpace: 'pre-line' 
+          }}
+        >
           {content}
         </Typography>
       </CardContent>
 
       {imageUrl && (
-        <CardMedia
-          component="img"
-          image={imageUrl}
-          alt="Post attachment"
-          sx={{
-            maxHeight: 400,
-            objectFit: 'cover',
-            width: '100%',
-            borderTop: '1px solid rgba(0, 0, 0, 0.04)',
-            borderBottom: '1px solid rgba(0, 0, 0, 0.04)',
-          }}
-        />
+        <Box sx={{ px: 2, pb: 2 }}>
+          <CardMedia
+            component="img"
+            image={imageUrl}
+            alt="Post attachment"
+            sx={{
+              maxHeight: 450,
+              objectFit: 'cover',
+              width: '100%',
+              borderRadius: 1.5,
+              border: '1px solid #f1f5f9',
+            }}
+          />
+        </Box>
       )}
 
-      <CardActions sx={{ px: 2, pb: 1.5, pt: 1, display: 'flex', gap: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton 
-            aria-label="like post" 
-            onClick={() => onLike && onLike(post._id || post.id)}
-            sx={{ 
-              color: isLiked ? '#ef4444' : 'text.secondary',
-              '&:hover': { color: '#ef4444' }
-            }}
-          >
-            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton>
-          <Typography variant="body2" color="text.secondary" fontWeight={500}>
-            {likeCount}
+      {/* Social Statistics Row */}
+      {(likeCount > 0 || commentCount > 0) && (
+        <Box sx={{ px: 2, pb: 1, display: 'flex', justifyContent: 'space-between' }}>
+          <Typography variant="caption" color="text.secondary">
+            {likeCount > 0 ? `${likeCount} ${likeCount === 1 ? 'Like' : 'Likes'}` : ''}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            {commentCount > 0 ? `${commentCount} ${commentCount === 1 ? 'Comment' : 'Comments'}` : ''}
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton 
-            aria-label="comments"
-            onClick={() => setExpanded(!expanded)}
-            sx={{ 
-              color: expanded ? '#4f46e5' : 'text.secondary',
-              '&:hover': { color: '#4f46e5' }
-            }}
-          >
-            <CommentIcon />
-          </IconButton>
-          <Typography variant="body2" color="text.secondary" fontWeight={500}>
-            {commentCount}
-          </Typography>
-        </Box>
+      )}
+
+      <Divider sx={{ mx: 2 }} />
+
+      {/* Action Buttons Row */}
+      <CardActions disableSpacing sx={{ px: 1, py: 0.5, display: 'flex', justifyContent: 'space-around' }}>
+        <Button
+          fullWidth
+          startIcon={isLiked ? <FavoriteIcon sx={{ color: '#ef4444' }} /> : <FavoriteBorderIcon />}
+          onClick={() => onLike && onLike(post._id || post.id)}
+          sx={{
+            textTransform: 'none',
+            color: isLiked ? '#ef4444' : '#64748b',
+            fontWeight: 600,
+            py: 1,
+            '&:hover': {
+              backgroundColor: '#f8fafc',
+            }
+          }}
+        >
+          Like
+        </Button>
+        <Button
+          fullWidth
+          startIcon={<ChatOutlinedIcon />}
+          onClick={() => setExpanded(!expanded)}
+          sx={{
+            textTransform: 'none',
+            color: expanded ? '#0a66c2' : '#64748b',
+            fontWeight: 600,
+            py: 1,
+            '&:hover': {
+              backgroundColor: '#f8fafc',
+            }
+          }}
+        >
+          Comment
+        </Button>
       </CardActions>
 
+      {/* Collapsible Comments Section */}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Divider />
-        <Box sx={{ p: 2 }}>
-          {/* Comments List */}
-          <List sx={{ width: '100%', bgcolor: 'background.paper', maxH: 250, overflowY: 'auto', mb: 2 }}>
-            {post.comments && post.comments.map((comment, index) => (
-              <React.Fragment key={comment._id || index}>
-                <ListItem alignItems="flex-start" sx={{ px: 0, py: 1 }}>
-                  <Avatar 
-                    sx={{ 
-                      width: 32, 
-                      height: 32, 
-                      mr: 2, 
-                      bgcolor: 'primary.main', 
-                      fontSize: '0.875rem',
-                      background: 'linear-gradient(45deg, #4f46e5 30%, #ec4899 90%)'
-                    }}
-                  >
-                    {(comment.username || 'U').charAt(0).toUpperCase()}
-                  </Avatar>
-                  <ListItemText
-                    primary={
-                      <Typography variant="subtitle2" fontWeight={700} color="text.primary">
-                        {comment.username}
-                      </Typography>
-                    }
-                    secondary={
-                      <Typography variant="body2" color="text.secondary" sx={{ display: 'inline', whiteSpace: 'pre-line' }}>
-                        {comment.comment}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                {index < post.comments.length - 1 && <Divider component="li" variant="inset" />}
-              </React.Fragment>
-            ))}
-            {(!post.comments || post.comments.length === 0) && (
-              <Typography variant="body2" color="text.secondary" align="center" sx={{ py: 2 }}>
-                No comments yet. Be the first to comment!
-              </Typography>
-            )}
-          </List>
-
-          {/* Comment Form */}
-          <Box component="form" onSubmit={handleCommentSubmit} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+        <Box sx={{ p: 2, backgroundColor: '#f8fafc' }}>
+          {/* Comment Input */}
+          <Box component="form" onSubmit={handleCommentSubmit} sx={{ display: 'flex', gap: 1.5, mb: 2 }}>
+            <Avatar 
+              sx={{ 
+                width: 36, 
+                height: 36, 
+                bgcolor: '#0a66c2',
+                fontSize: '0.875rem',
+                fontWeight: 600
+              }}
+            >
+              {currentUser?.username?.charAt(0).toUpperCase() || 'U'}
+            </Avatar>
             <TextField
               fullWidth
               size="small"
-              placeholder="Write a comment..."
+              placeholder="Add a comment..."
               value={commentInput}
               onChange={(e) => setCommentInput(e.target.value)}
               disabled={submitting}
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  borderRadius: 3,
+                  borderRadius: 6,
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #cbd5e1',
+                  '& fieldset': { border: 'none' },
+                  '&:hover fieldset': { border: 'none' },
+                  '&.Mui-focused fieldset': { border: 'none' },
                 },
               }}
             />
@@ -234,20 +240,57 @@ function PostCard({ post, onLike, onComment }) {
               color="primary" 
               disabled={submitting || !commentInput.trim()}
               sx={{
-                background: 'linear-gradient(45deg, #4f46e5 30%, #ec4899 90%)',
-                color: 'white',
+                color: '#0a66c2',
                 '&:hover': {
-                  background: 'linear-gradient(45deg, #4338ca 30%, #db2777 90%)',
-                },
-                '&.Mui-disabled': {
-                  background: '#e2e8f0',
-                  color: '#94a3b8',
+                  backgroundColor: 'rgba(10, 102, 194, 0.05)',
                 }
               }}
             >
               {submitting ? <CircularProgress size={20} color="inherit" /> : <SendIcon sx={{ fontSize: 18 }} />}
             </IconButton>
           </Box>
+
+          {/* Comments List */}
+          <Stack spacing={1.5}>
+            {post.comments && post.comments.map((comment, index) => (
+              <Box key={comment._id || index} sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
+                <Avatar 
+                  sx={{ 
+                    width: 32, 
+                    height: 32, 
+                    bgcolor: '#e2e8f0', 
+                    color: '#475569',
+                    fontSize: '0.8rem',
+                    fontWeight: 600
+                  }}
+                >
+                  {(comment.username || 'U').charAt(0).toUpperCase()}
+                </Avatar>
+                <Box 
+                  sx={{ 
+                    bgcolor: '#f1f5f9', 
+                    borderRadius: 3, 
+                    py: 1, 
+                    px: 1.5, 
+                    flexGrow: 1, 
+                    maxWidth: 'calc(100% - 48px)' 
+                  }}
+                >
+                  <Typography variant="subtitle2" fontWeight={700} color="#0f172a">
+                    {comment.username}
+                  </Typography>
+                  <Typography variant="body2" color="#334155" sx={{ whiteSpace: 'pre-line', mt: 0.5, lineHeight: 1.5 }}>
+                    {comment.comment}
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
+            {(!post.comments || post.comments.length === 0) && (
+              <Typography variant="body2" color="text.secondary" align="center" sx={{ py: 1 }}>
+                No comments yet.
+              </Typography>
+            )}
+          </Stack>
         </Box>
       </Collapse>
     </Card>

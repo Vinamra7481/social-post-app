@@ -19,6 +19,7 @@ import {
   Lock as LockIcon,
   Visibility,
   VisibilityOff,
+  RssFeed as LogoIcon,
 } from '@mui/icons-material';
 import { login as loginService } from '../services/api';
 
@@ -102,50 +103,58 @@ function Login() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%)',
+        backgroundColor: '#f4f5f7',
         py: 4,
         px: 2,
       }}
     >
       <Container maxWidth="xs">
         <Card
+          elevation={1}
           sx={{
-            borderRadius: 4,
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-            backgroundColor: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
+            borderRadius: 2,
+            border: '1px solid #e2e8f0',
+            backgroundColor: '#ffffff',
             overflow: 'hidden',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
           }}
         >
-          <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
+          <CardContent sx={{ p: 4 }}>
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                mb: 4,
+                mb: 3,
               }}
             >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                <LogoIcon sx={{ color: '#0a66c2', fontSize: 32 }} />
+                <Typography
+                  variant="h5"
+                  component="span"
+                  sx={{
+                    fontWeight: 800,
+                    color: '#0a66c2',
+                    letterSpacing: '0.5px',
+                  }}
+                >
+                  Social Post
+                </Typography>
+              </Box>
               <Typography
-                variant="h4"
+                variant="h5"
                 component="h1"
                 gutterBottom
                 sx={{
-                  fontWeight: 800,
-                  background: 'linear-gradient(45deg, #4f46e5 30%, #ec4899 90%)',
-                  backgroundClip: 'text',
-                  textFillColor: 'transparent',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  textAlign: 'center',
-                  mb: 1,
+                  fontWeight: 700,
+                  color: '#0f172a',
+                  mb: 0.5,
                 }}
               >
-                Social Post App
+                Welcome Back
               </Typography>
               <Typography variant="body2" color="text.secondary" textAlign="center">
-                Sign in to connect and share with your friends
+                Sign in to continue
               </Typography>
             </Box>
 
@@ -153,7 +162,7 @@ function Login() {
               <Alert 
                 severity={alertSeverity} 
                 onClose={() => setAlertMessage('')}
-                sx={{ mb: 3, borderRadius: 2 }}
+                sx={{ mb: 2, borderRadius: 1.5 }}
               >
                 {alertMessage}
               </Alert>
@@ -178,14 +187,14 @@ function Login() {
                   input: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <EmailIcon color="action" />
+                        <EmailIcon color="action" fontSize="small" />
                       </InputAdornment>
                     ),
                   },
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    borderRadius: 3,
+                    borderRadius: 2,
                   },
                 }}
               />
@@ -207,7 +216,7 @@ function Login() {
                   input: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <LockIcon color="action" />
+                        <LockIcon color="action" fontSize="small" />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -219,7 +228,7 @@ function Login() {
                           edge="end"
                           disabled={loading}
                         >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                          {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -228,7 +237,7 @@ function Login() {
                 sx={{
                   mb: 3,
                   '& .MuiOutlinedInput-root': {
-                    borderRadius: 3,
+                    borderRadius: 2,
                   },
                 }}
               />
@@ -239,18 +248,16 @@ function Login() {
                 size="large"
                 disabled={loading}
                 sx={{
-                  py: 1.5,
-                  borderRadius: 3,
+                  py: 1.25,
+                  borderRadius: 2,
                   textTransform: 'none',
-                  fontSize: '1rem',
+                  fontSize: '0.95rem',
                   fontWeight: 600,
-                  background: 'linear-gradient(45deg, #4f46e5 30%, #ec4899 90%)',
-                  boxShadow: '0 4px 15px rgba(79, 70, 229, 0.4)',
-                  transition: 'all 0.3s ease-in-out',
+                  backgroundColor: '#0a66c2',
+                  boxShadow: 'none',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #4338ca 30%, #db2777 90%)',
-                    boxShadow: '0 6px 20px rgba(79, 70, 229, 0.6)',
-                    transform: 'translateY(-2px)',
+                    backgroundColor: '#004182',
+                    boxShadow: 'none',
                   },
                 }}
               >
@@ -268,8 +275,8 @@ function Login() {
                 to="/signup"
                 variant="body2"
                 sx={{
-                  color: '#4f46e5',
-                  fontWeight: 500,
+                  color: '#0a66c2',
+                  fontWeight: 600,
                   textDecoration: 'none',
                   '&:hover': {
                     textDecoration: 'underline',

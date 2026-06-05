@@ -135,33 +135,68 @@ function Feed() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc', pb: 8 }}>
-      {/* Navigation Header */}
-      <AppBar 
-        position="static" 
-        sx={{ 
-          background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
-          boxShadow: '0 4px 12px rgba(79, 70, 229, 0.15)'
-        }}
-      >
-        <Toolbar>
-          <FeedIcon sx={{ mr: 2 }} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 700, letterSpacing: '0.5px' }}>
-            Social Feed
-          </Typography>
-          <IconButton color="inherit" aria-label="profile" sx={{ mr: 1 }}>
-            <AccountIcon />
-          </IconButton>
-          <Button 
-            color="inherit" 
-            startIcon={<LogoutIcon />} 
-            onClick={handleLogout}
-            sx={{ textTransform: 'none', fontWeight: 500 }}
-          >
-            Logout
-          </Button>
-        </Toolbar>
-      </AppBar>
+  <Box
+    sx={{
+      minHeight: '100vh',
+      backgroundColor: '#f5f6f8',
+    }}
+  >
+    <AppBar
+  position="sticky"
+  elevation={0}
+  sx={{
+    backgroundColor: '#ffffff',
+    borderBottom: '1px solid #e2e8f0',
+    color: '#0f172a',
+  }}
+>
+  <Toolbar>
+    <FeedIcon
+      sx={{
+        mr: 2,
+        color: '#0a66c2',
+      }}
+    />
+
+    <Typography
+      variant="h6"
+      component="div"
+      sx={{
+        flexGrow: 1,
+        fontWeight: 700,
+        color: '#0a66c2',
+        letterSpacing: '-0.3px',
+      }}
+    >
+      Social Post
+    </Typography>
+
+    <IconButton
+      aria-label="profile"
+      sx={{
+        mr: 1,
+        color: '#64748b',
+      }}
+    >
+      <AccountIcon />
+    </IconButton>
+
+    <Button
+      startIcon={<LogoutIcon />}
+      onClick={handleLogout}
+      sx={{
+        color: '#475569',
+        textTransform: 'none',
+        fontWeight: 600,
+        '&:hover': {
+          backgroundColor: '#f8fafc',
+        },
+      }}
+    >
+      Logout
+    </Button>
+  </Toolbar>
+</AppBar>
 
       {/* Main Content Area */}
       <Container maxWidth="sm" sx={{ mt: 4 }}>
@@ -184,7 +219,7 @@ function Feed() {
               sx={{
                 borderRadius: 3,
                 textTransform: 'none',
-                background: 'linear-gradient(45deg, #4f46e5 30%, #ec4899 90%)',
+                background: 'linear-gradient(45deg, #4f46e5 30%, #de4592 90%)',
                 boxShadow: '0 4px 15px rgba(79, 70, 229, 0.3)',
                 '&:hover': {
                   background: 'linear-gradient(45deg, #4338ca 30%, #db2777 90%)',
